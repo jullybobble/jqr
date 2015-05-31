@@ -1,0 +1,148 @@
+---
+title: "JQR"
+author: "Julien Gaugaz"
+date: "22 May 2015"
+output: html_document
+---
+
+```{r}
+library(stringi)
+library(rvest)
+library(dplyr)
+library(DT)
+library(magrittr)
+library(htmltools)
+```
+
+```{r}
+manual <- html("http://stedolan.github.io/jq/manual")
+```
+
+```{r}
+program <- manual %>% html_nodes(".manual-example") %>% html_node(".jqprogram") %>% html_text() %>% stri_extract_first_regex("'.*'") %>% stri_sub(2, -2)
+input <- manual %>% html_nodes("table.manual-example > :nth-child(2) > td") %>% html_text()
+output <- manual %>% html_nodes("table.manual-example > :nth-child(3) > td") %>% html_text()
+
+```
+
+```{r}
+examples <- data_frame(program, input, output) %>%
+  mutate(row = 1:n())
+
+examples <- 
+  examples %>%
+  filter(#row >= examples %>% filter(program == "keys") %>% extract2("row") %>% min,
+         row <= examples %>% filter(program == "recurse") %>% extract2("row")) %>%
+  select(-row) %>% 
+  mutate(#row = 1:n(),
+            program = program %>% stri_replace_first_regex('^rindex\\(", "\\)\\]$', '[rindex(", ")]'), # typo in jq manual
+            dsl = program %>% 
+              stri_replace_all_regex("\\.\\[([^\\]]*)\\]\\?", "ex($1, opt = T)") %>% 
+              stri_replace_all_regex("\\.\\[([^\\]]*)\\]", "ex($1)") %>% 
+              stri_replace_all_regex("\\.(.*)\\?", "ex($1, opt = T)") %>% 
+              stri_replace_all_regex("\\.(\\w*)", "ex($1)") %>%
+              stri_replace_all_regex("\\s*\\|=\\s*", " %|=% ") %>%
+              stri_replace_all_regex("\\s*\\|([^=]\\S*)\\s*", " %|% $1") %>%
+              stri_replace_all_regex("\\[([^\\[\\]]*)\\]", "arr($1)") %>% 
+              stri_replace_all_regex("\\[([^\\[\\]]*)\\]", "arr($1)") %>% 
+              stri_replace_all_regex("\\{([^\\}\\{]*)\\}", "obj($1)") %>% 
+              stri_replace_all_regex("\\{([^\\}\\{]*)\\}", "obj($1)") %>% 
+              stri_replace_all_regex("obj\\((.*?):(.*?)\\)", "obj($1 = $2)") %>% 
+              stri_replace_all_regex("obj\\((.*?):(.*?)\\)", "obj($1 = $2)") %>% 
+              stri_replace_all_regex("obj\\((.*?):(.*?)\\)", "obj($1 = $2)") %>% 
+              stri_replace_all_fixed(";", ",") %>% 
+              stri_replace_first_regex("^((?:\\w+\\(\\w+\\)),\\s*(?:\\w+\\([\\w\\(\\)]+\\))+)$", "mux($1)") %>% 
+              stri_replace_all_fixed("arr()", " %|% arr()") %>%
+              stri_replace_all_regex("^(\\w+)$", "$1()") %>%
+              identity())
+# %>%
+  # filter(program %>% stri_detect_fixed("numb")) %>%
+  # filter(program == '[.user, .projects[]]') %>%
+  # datatable(options = list(pageLength = 20))
+```
+
+```{r}
+examples %>% with(dsl) %>% unique %>% paste(collapse = "\n") %>% cat
+```
+
+
+Transliteration Tests
+```{r}
+examples %>% mutate(test = "
+test_that('%s', {
+  if(T) skip('not implemented')
+  else expect_equivalent(
+    %s,
+    '%s'
+  )
+})" %>% sprintf(program, dsl, program)) %>%
+  with(test) %>%
+  writeLines("./tests/testthat/test_dsl.R")
+```
+
+
+```
+ex()
+ex(char, opt = T)
+ex(int)
+ex(int:int)
+ex(int*)
+arr(filter*)
+mux(filter*)
+obj(field =  filter)
+obj((filter) = filter)
+filter + int
+filter + null
+filter + filter
+json + json + ...
+int - filter
+filter - arr
+10 / filter * 3
+ex() / ", "
+json * json
+length
+keys
+map(filter)
+del(filter)
+to_entries
+from_entries
+with_entries({key: value} => _)
+select(lgl)
+arrays, objects, iterables, booleans, numbers, strings, nulls, values, scalars
+empty
+map(filter)
+paths, paths(node_filter)
+add
+any
+all
+flatten
+flatten(depth)
+range(upto), range(from, upto)
+floor
+sqrt
+tonumber
+tostring
+type
+sort, sort(path_expression), sort_by(path_expression)
+group(path_expression), group_by(path_expression)
+min, max, min(path_exp), max(path_exp), min_by(path_exp), max_by(path_exp)
+unique, unique(path_exp), unique_by(path_exp)
+reverse
+contains(json)
+indices(json)
+index(json), rindex(json)
+arr(x() %|% tartswith("foo"))
+arr(x() %|% ndswith("foo"))
+match("(abc)+", "g")
+match("foo")
+match(arr("foo", "ig"))
+match("foo (?bar)? foo", "ig")
+test("foo")
+test("foo", "i")
+arr(x() %|% trimstr("foo"))
+explode
+implode
+split(", ")
+join(", ")
+recurse(x(foo) %|% arr())
+recurse```
