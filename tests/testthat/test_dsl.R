@@ -4,10 +4,9 @@ test_dsl <- function(expected, dsl, skipped = F) {
   if(skipped) {
     skip(paste(expected, 'skipped'))
   } else {
-    dsl <- substitute(dsl)
     test_that(expected, {
       expect_equivalent(
-        jq_(dsl),
+        dsl,
         as.jq(expected)
       )
     })
@@ -15,285 +14,285 @@ test_dsl <- function(expected, dsl, skipped = F) {
 }
 
 test_dsl('.',
-         .)
+         j.)
 
 test_dsl('.["foo"]',
-         .["foo"])
+         j.["foo"])
 
 test_dsl('.["foo"]?',
-         .['foo', opt = T])
+         j.['foo', opt = T])
 
 test_dsl('[.["foo"]?]',
-         arr(.['foo', opt = T]))
+         jarray(j.['foo', opt = T]))
 
 test_dsl('.[0]',
-         .[1])
+         j.[1])
 
 test_dsl('.[2]',
-         .[3])
+         j.[3])
 
 test_dsl('.[2:4]',
-         .[from = 3, to = 5])
+         j.[from = 3, to = 5])
 
 test_dsl('.[:3]',
-         .[to = 4])
+         j.[to = 4])
 
 test_dsl('.[-2:]',
-         .[from = -2])
+         j.[from = -2])
 
 test_dsl('.[]',
-         .[])
+         j.[])
 
 test_dsl('.["foo"], .["bar"]',
-         mux(.['foo'], .['bar']))
+         jmux(j.['foo'], j.['bar']))
 
 test_dsl('. | .["foo"]',
-         . %|% .['foo'])
+         j. %|% j.['foo'])
 
 test_dsl('.["user"], .["projects"] | .[]',
-         mux(.['user'], .['projects']) %|% .[])
+         jmux(j.['user'], j.['projects']) %|% j.[])
 
 test_dsl('.[4,2]',
-         .[5,3])
+         j.[5,3])
 
 test_dsl('.[] | .["name"]',
-         .[] %|%  .['name'])
+         j.[] %|%  j.['name'])
 
 test_dsl('[.["user"], .["projects"][]]',
-         arr(.["user"], .["projects"][]))
+         jarray(j.["user"], j.["projects"][]))
 
 test_dsl('{"user": .["user"], "title": .["titles"][]}',
-         obj("user", "title" %:% .["titles"][]))
+         jobject("user", "title" %:% j.["titles"][]))
 
 test_dsl('{(.["user"]): .["titles"]}',
-         obj(.["user"] %:% .["titles"]))
+         jobject(j.["user"] %:% j.["titles"]))
 
 test_dsl('.["a"] + 1',
-         .["a"] + 1)
+         j.["a"] + 1)
 
 test_dsl('.["a"] + .["b"]',
-         .["a"] + .["b"])
+         j.["a"] + j.["b"])
 
 test_dsl('.["a"] + null',
-         .["a"] + NA)
+         j.["a"] + NA)
 
 test_dsl('.["a"] + 1',
-         .["a"] + 1)
+         j.["a"] + 1)
 
 test_dsl('{"a": 1} + {"b": 2} + {"c": 3} + {"a": 42}',
-         obj(a =  1) + obj(b =  2) + obj(c =  3) + obj(a =  42))
+         jobject(a =  1) + jobject(b =  2) + jobject(c =  3) + jobject(a =  42))
 
 test_dsl('-.["a"] + 4',
-         -.["a"] + 4)
+         -j.["a"] + 4)
 
 # test_dsl(skip = T,
 #          '4 - .a',
 #          4 - .["a"])
 
 test_dsl('. - ["xml", "yaml"]',
-         . - arr("xml", "yaml"))
+         j. - jarray("xml", "yaml"))
 
 # test_dsl(skip = T,
 #          '10 / . * 3',
 #          10 / . * 3)
 
 test_dsl('. / ", "',
-         . / ", ")
+         j. / ", ")
 
 test_dsl('{"k": {"a": 1, "b": 2}} * {"k": {"a": 0, "c": 3}}',
-         obj("k" =  obj("a" =  1, "b" =  2)) * obj("k" =  obj("a" =  0,"c" =  3)))
+         jobject("k" =  jobject("a" =  1, "b" =  2)) * jobject("k" =  jobject("a" =  0,"c" =  3)))
 
 test_dsl('.[] | length',
-         .[] %|%  length)
+         j.[] %|%  jlength)
 
 test_dsl('keys',
-         keys)
+         jkeys)
 
 test_dsl('map(has("foo"))',
-         map(has("foo")))
+         jmap(jhas("foo")))
 
 test_dsl('map(has(2))',
-         map(has(2)))
+         jmap(jhas(2)))
 
 test_dsl('del(.["foo"])',
-         del(.["foo"]))
+         jdel(j.["foo"]))
 
 test_dsl('del(.[1,2])',
-         del(.[2, 3]))
+         jdel(j.[2, 3]))
 
 test_dsl('to_entries',
-         to_entries)
+         jto_entries)
 
 test_dsl('from_entries',
-         from_entries)
+         jfrom_entries)
 
 # test_dsl('with_entries(.key |= "KEY_" + .)',
 #          with_entries(.["key"] %|=% "KEY_" + ex()))
 
 test_dsl('map(select(. >= 2))',
-         map(select(. >= 2)))
+         jmap(jselect(j. >= 2)))
 
 test_dsl('.[] | numbers',
-         .[] %|% numbers)
+         j.[] %|% jnumbers)
 
 test_dsl('1, empty, 2',
-         seq(1, empty, 2))
+         jseq(1, jempty, 2))
 
 test_dsl('[1, 2, empty, 3]',
-         arr(1,2,empty,3))
+         jarray(1,2,jempty,3))
 
 test_dsl('map(. + 1)',
-         map(. + 1))
+         jmap(j. + 1))
 
 test_dsl('[paths]',
-         arr(paths()))
+         jarray(jpaths()))
 
 test_dsl('[paths(scalars)]',
-         arr(paths(scalars)))
+         jarray(jpaths(jscalars)))
 
 test_dsl('add',
-         add)
+         jadd)
 
 test_dsl('any',
-         any)
+         jany)
 
 test_dsl('all',
-         all)
+         jall)
 
 test_dsl('flatten(1)',
-         flatten(1))
+         jflatten(1))
 
 test_dsl('flatten',
-         flatten())
+         jflatten())
 
 test_dsl('range(2; 4)',
-         range(2,4))
+         jrange(2,4))
 
 test_dsl('[range(2; 4)]',
-         arr(range(2,4)))
+         jarray(jrange(2,4)))
 
 test_dsl('[range(0; 4)]',
-         arr(range(4)))
+         jarray(jrange(4)))
 
 test_dsl('floor',
-         floor)
+         jfloor)
 
 test_dsl('sqrt',
-         sqrt)
+         jsqrt)
 
 test_dsl('.[] | tonumber',
-         .[] %|%  tonumber)
+         j.[] %|%  jtonumber)
 
 test_dsl('.[] | tostring',
-         .[] %|%  tostring)
+         j.[] %|%  jtostring)
 
 test_dsl('map(type)',
-         map(type))
+         jmap(jtype))
 
 test_dsl('sort',
-         sort())
+         jsort())
 
 test_dsl('sort(.["foo"])',
-         sort(.["foo"]))
+         jsort(j.["foo"]))
 
 test_dsl('group(.["foo"])',
-         group(.["foo"]))
+         jgroup(j.["foo"]))
 
 test_dsl('min',
-         min())
+         jmin())
 
 test_dsl('max(.["foo"])',
-         max(.["foo"]))
+         jmax(j.["foo"]))
 
 test_dsl('unique',
-         unique())
+         junique())
 
 test_dsl('unique(.["foo"])',
-         unique(.["foo"]))
+         junique(j.["foo"]))
 
 test_dsl('unique(length)',
-         unique(length))
+         junique(jlength))
 
 test_dsl('reverse',
-         reverse)
+         jreverse)
 
 test_dsl('contains("bar")',
-         contains("bar"))
+         jcontains("bar"))
 
 test_dsl('contains(["baz", "bar"])',
-         contains(arr("baz", "bar")))
+         jcontains(jarray("baz", "bar")))
 
 test_dsl('contains(["bazzzzz", "bar"])',
-         contains(arr("bazzzzz", "bar")))
+         jcontains(jarray("bazzzzz", "bar")))
 
 test_dsl('contains({"foo": 12, "bar": [{"barp": 12}]})',
-         contains(obj(foo =  12, bar =  arr(obj(barp =  12)))))
+         jcontains(jobject(foo =  12, bar =  jarray(jobject(barp =  12)))))
 
 test_dsl('contains({"foo": 12, "bar": [{"barp": 15}]})',
-         contains(obj(foo =  12, bar =  arr(obj(barp =  15)))))
+         jcontains(jobject(foo =  12, bar =  jarray(jobject(barp =  15)))))
 
 test_dsl('indices(", ")',
-         indices(", "))
+         jindices(", "))
 
 test_dsl('indices(1)',
-         indices(1))
+         jindices(1))
 
 test_dsl('indices([1, 2])',
-         indices(arr(1,2)))
+         jindices(jarray(1,2)))
 
 test_dsl('index(", ")',
-         index(", "))
+         jindex(", "))
 
 test_dsl('[rindex(", ")]',
-         arr(rindex(", ")))
+         jarray(jrindex(", ")))
 
 test_dsl('[.[] | startswith("foo")]',
-         arr(.[] %|% startswith("foo")))
+         jarray(j.[] %|% jstartswith("foo")))
 
 test_dsl('[.[] | endswith("foo")]',
-         arr(.[] %|% endswith("foo")))
+         jarray(j.[] %|% jendswith("foo")))
 
 test_dsl('match("(abc)+"; "g")',
-         match("(abc)+", "g"))
+         jmatch("(abc)+", "g"))
 
 test_dsl('match("foo")',
-         match("foo"))
+         jmatch("foo"))
 
 test_dsl('match(["foo", "ig"])',
-         match(arr("foo", "ig")))
+         jmatch(jarray("foo", "ig")))
 
 test_dsl('match("foo (?bar)? foo"; "ig")',
-         match("foo (?bar)? foo", "ig"))
+         jmatch("foo (?bar)? foo", "ig"))
 
 test_dsl('test("foo")',
-         test("foo"))
+         jtest("foo"))
 
 test_dsl('test("foo"; "i")',
-         test("foo", "i"))
+         jtest("foo", "i"))
 
 test_dsl('test("foo")',
-         test("foo"))
+         jtest("foo"))
 
 test_dsl('[.[] | ltrimstr("foo")]',
-         arr(.[] %|% ltrimstr("foo")))
+         jarray(j.[] %|% jltrimstr("foo")))
 
 test_dsl('[.[] | rtrimstr("foo")]',
-         arr(.[] %|% rtrimstr("foo")))
+         jarray(j.[] %|% jrtrimstr("foo")))
 
 test_dsl('explode',
-         explode)
+         jexplode)
 
 test_dsl('implode',
-         implode)
+         jimplode)
 
 test_dsl('split(", ")',
-         split(", "))
+         jsplit(", "))
 
 test_dsl('join(", ")',
-         join(", "))
+         jjoin(", "))
 
 test_dsl('recurse(.["foo"][])',
-         recurse(.["foo"][]))
+         jrecurse(j.["foo"][]))
 
 test_dsl('recurse',
-         recurse())
+         jrecurse())
