@@ -1,11 +1,13 @@
-
+#' @export
 as.jq <- function(code, ...) structure(code, class = c('jq', ...))
 
+#' @export
 print.jq <- function(x) {
   out <- paste("jq", shQuote(x))
   cat(paste(strwrap(out), collapse = "\n"), "\n", sep = "")
 }
 
+#' @export
 `[.jq` <- function(filter, ..., from = NULL, to = NULL, opt = F) {
   args <- deparse(substitute(...))
   if (!is.null(from) || !is.null(to)) {
@@ -38,13 +40,21 @@ print.jq <- function(x) {
   }
 }
 
+#' @export
 `+.jq` <- function(filter, rhs) override_operator('+', filter, rhs)
+#' @export
 `-.jq` <- function(filter, rhs) override_operator('-', filter, rhs)
+#' @export
 `*.jq` <- function(filter, rhs) override_operator('*', filter, rhs, allow_unary = F)
+#' @export
 `/.jq` <- function(filter, rhs) override_operator('/', filter, rhs, allow_unary = F)
+#' @export
 `>.jq` <- function(filter, rhs) override_operator('>', filter, rhs, allow_unary = F)
+#' @export
 `>=.jq` <- function(filter, rhs) override_operator('>=', filter, rhs, allow_unary = F)
+#' @export
 `<.jq` <- function(filter, rhs) override_operator('<', filter, rhs, allow_unary = F)
+#' @export
 `<=.jq` <- function(filter, rhs) override_operator('<=', filter, rhs, allow_unary = F)
 
 override_operator <- function(operator, filter, rhs, allow_unary = T) {

@@ -1,10 +1,14 @@
 
+#' @import jsonlite
+#' @export
 jq <- function(expr)
   eval(substitute(expr), envir = jq_filters)
 
+#' @export
 jq_ <- function(expr)
   eval(expr, envir = jq_filters)
 
+#' @export
 jq_filters <- new.env(parent = environment())
 
 ## jq function filter factories
@@ -33,8 +37,13 @@ fun_filter <- function(fun_name, allow_missing)
 fun_path <- fun_filter # we want eventually to check the parameters,
                        # i.e. will be different from fun_filter
 
-
 ## create the jq filters
+
+#' @export
+`%|%` <- function(lhs, rhs) {
+  as.jq(paste(jq_(substitute(lhs)), jq_(substitute(rhs)), sep = ' | '))
+}
+
 evalq(envir = jq_filters, {
 
   ### json builders
@@ -209,8 +218,4 @@ expected_json <- function(json) {
 
 expected_string <- function(s) {
   unlist(lapply(as.character(s), toJSON, auto_unbox = T))
-}
-
-`%|%` <- function(lhs, rhs) {
-  as.jq(paste(jq_(substitute(lhs)), jq_(substitute(rhs)), sep = ' | '))
 }
