@@ -35,6 +35,7 @@ fun_path <- fun_filter # we want eventually to check the parameters,
 ### json builders
 
 #### json array
+#' @export
 jarray <- function(...) {
   elements <-
     lapply(list(...), function(el) {
@@ -50,8 +51,16 @@ jarray <- function(...) {
 }
 
 #### json object
+#' @export
+#' @import lazyeval
 jobject <- function(...) {
-  fields <- list(...)
+  jobject_(lazy_dots(...))
+}
+
+#' @export
+#' @import lazyeval
+jobject_ <- function(entries) {
+  fields <- lazy_eval(entries, data = internal_members)
   field_names <- names(fields)
   if (is.null(field_names))
     field_names <- rep_len("", length(fields))
@@ -59,13 +68,13 @@ jobject <- function(...) {
   entries <- mapply(function(field, value) {
     if (field == '') {
       if (inherits(value, 'character')) {
-        value %:% j.[value]
+        internal_eval(value %:% j.[value])
       } else {
         stopifnot(inherits(value, 'jq_entry'))
         value
       }
     } else {
-      field %:% value
+      internal_eval(field %:% value)
     }
   }, field_names, fields)
 
@@ -75,25 +84,27 @@ jobject <- function(...) {
 }
 
 #### colon operator to build json object entries
-#' @export
-`%:%` <- function(field, value) {
-  value <- expected_filter_or_json(value)
+internal_members <- list(
+  `%:%` = function(field, value) {
+    value <- expected_filter_or_json(value)
 
-  if (inherits(field, 'jq')) {
-    structure(sprintf('(%s): %s',
-                      field,
-                      value),
-              class = 'jq_entry')
-  } else {
-    field_json <- toJSON(as.character(field), auto_unbox = T)
-    structure(sprintf('%s: %s',
-                      field_json,
-                      value),
-              class = 'jq_entry')
+    if (inherits(field, 'jq')) {
+      structure(sprintf('(%s): %s',
+                        field,
+                        value),
+                class = 'jq_entry')
+    } else {
+      field_json <- toJSON(as.character(field), auto_unbox = T)
+      structure(sprintf('%s: %s',
+                        field_json,
+                        value),
+                class = 'jq_entry')
 
+    }
   }
-}
+)
 
+internal_eval <- function(expr) lazy_eval(lazy(expr), data = internal_members)
 
 ### simple jq filters without parameters
 
