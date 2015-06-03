@@ -1,5 +1,3 @@
-require(jsonlite, warn.conflicts = F)
-
 test_dsl <- function(expected, dsl, skipped = F) {
   if(skipped) {
     skip(paste(expected, 'skipped'))
