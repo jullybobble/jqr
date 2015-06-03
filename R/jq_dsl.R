@@ -84,8 +84,8 @@ jobject_ <- function(entries) {
 }
 
 #### colon operator to build json object entries
-internal_members <- list(
-  `%:%` = function(field, value) {
+internal_members <- within(list(), {
+  `%:%` <- function(field, value) {
     value <- expected_filter_or_json(value)
 
     if (inherits(field, 'jq')) {
@@ -102,7 +102,7 @@ internal_members <- list(
 
     }
   }
-)
+})
 
 internal_eval <- function(expr) lazy_eval(lazy(expr), data = internal_members)
 
