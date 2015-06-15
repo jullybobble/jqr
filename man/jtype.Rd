@@ -4,7 +4,7 @@
 \name{jtype}
 \alias{jtype}
 \title{jq filter \code{type}}
-\format{\preformatted{Class 'jq'  chr "type"
+\format{\preformatted{Classes 'jq', 'character'  chr "type"
 }}
 \usage{
 jtype

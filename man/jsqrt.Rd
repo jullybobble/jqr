@@ -4,7 +4,7 @@
 \name{jsqrt}
 \alias{jsqrt}
 \title{jq filter \code{sqrt}}
-\format{\preformatted{Class 'jq'  chr "sqrt"
+\format{\preformatted{Classes 'jq', 'character'  chr "sqrt"
 }}
 \usage{
 jsqrt

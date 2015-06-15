@@ -4,7 +4,7 @@
 \name{jarrays}
 \alias{jarrays}
 \title{jq filter \code{arrays}}
-\format{\preformatted{Class 'jq'  chr "arrays"
+\format{\preformatted{Classes 'jq', 'character'  chr "arrays"
 }}
 \usage{
 jarrays

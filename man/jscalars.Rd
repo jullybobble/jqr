@@ -4,7 +4,7 @@
 \name{jscalars}
 \alias{jscalars}
 \title{jq filter \code{scalars}}
-\format{\preformatted{Class 'jq'  chr "scalars"
+\format{\preformatted{Classes 'jq', 'character'  chr "scalars"
 }}
 \usage{
 jscalars

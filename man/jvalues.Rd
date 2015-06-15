@@ -4,7 +4,7 @@
 \name{jvalues}
 \alias{jvalues}
 \title{jq filter \code{values}}
-\format{\preformatted{Class 'jq'  chr "values"
+\format{\preformatted{Classes 'jq', 'character'  chr "values"
 }}
 \usage{
 jvalues

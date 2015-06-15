@@ -4,7 +4,7 @@
 \name{jto_entries}
 \alias{jto_entries}
 \title{jq filter \code{to_entries}}
-\format{\preformatted{Class 'jq'  chr "to_entries"
+\format{\preformatted{Classes 'jq', 'character'  chr "to_entries"
 }}
 \usage{
 jto_entries

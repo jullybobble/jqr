@@ -4,7 +4,7 @@
 \name{jall}
 \alias{jall}
 \title{jq filter \code{all}}
-\format{\preformatted{Class 'jq'  chr "all"
+\format{\preformatted{Classes 'jq', 'character'  chr "all"
 }}
 \usage{
 jall

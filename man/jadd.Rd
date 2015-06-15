@@ -4,7 +4,7 @@
 \name{jadd}
 \alias{jadd}
 \title{jq filter \code{add}}
-\format{\preformatted{Class 'jq'  chr "add"
+\format{\preformatted{Classes 'jq', 'character'  chr "add"
 }}
 \usage{
 jadd

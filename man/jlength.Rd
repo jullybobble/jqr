@@ -4,7 +4,7 @@
 \name{jlength}
 \alias{jlength}
 \title{jq filter \code{length}}
-\format{\preformatted{Class 'jq'  chr "length"
+\format{\preformatted{Classes 'jq', 'character'  chr "length"
 }}
 \usage{
 jlength

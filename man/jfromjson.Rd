@@ -4,7 +4,7 @@
 \name{jfromjson}
 \alias{jfromjson}
 \title{jq filter \code{fromjson}}
-\format{\preformatted{Class 'jq'  chr "fromjson"
+\format{\preformatted{Classes 'jq', 'character'  chr "fromjson"
 }}
 \usage{
 jfromjson

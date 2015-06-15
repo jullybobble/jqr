@@ -4,7 +4,7 @@
 \name{jtojson}
 \alias{jtojson}
 \title{jq filter \code{tojson}}
-\format{\preformatted{Class 'jq'  chr "tojson"
+\format{\preformatted{Classes 'jq', 'character'  chr "tojson"
 }}
 \usage{
 jtojson

@@ -4,7 +4,7 @@
 \name{jbooleans}
 \alias{jbooleans}
 \title{jq filter \code{booleans}}
-\format{\preformatted{Class 'jq'  chr "booleans"
+\format{\preformatted{Classes 'jq', 'character'  chr "booleans"
 }}
 \usage{
 jbooleans

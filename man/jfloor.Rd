@@ -4,7 +4,7 @@
 \name{jfloor}
 \alias{jfloor}
 \title{jq filter \code{floor}}
-\format{\preformatted{Class 'jq'  chr "floor"
+\format{\preformatted{Classes 'jq', 'character'  chr "floor"
 }}
 \usage{
 jfloor

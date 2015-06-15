@@ -4,7 +4,7 @@
 \name{jnumbers}
 \alias{jnumbers}
 \title{jq filter \code{numbers}}
-\format{\preformatted{Class 'jq'  chr "numbers"
+\format{\preformatted{Classes 'jq', 'character'  chr "numbers"
 }}
 \usage{
 jnumbers

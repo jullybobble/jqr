@@ -4,7 +4,7 @@
 \name{jiterables}
 \alias{jiterables}
 \title{jq filter \code{iterables}}
-\format{\preformatted{Class 'jq'  chr "iterables"
+\format{\preformatted{Classes 'jq', 'character'  chr "iterables"
 }}
 \usage{
 jiterables

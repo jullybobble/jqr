@@ -4,7 +4,7 @@
 \name{jimplode}
 \alias{jimplode}
 \title{jq filter \code{implode}}
-\format{\preformatted{Class 'jq'  chr "implode"
+\format{\preformatted{Classes 'jq', 'character'  chr "implode"
 }}
 \usage{
 jimplode

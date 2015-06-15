@@ -4,7 +4,7 @@
 \name{jtostring}
 \alias{jtostring}
 \title{jq filter \code{tostring}}
-\format{\preformatted{Class 'jq'  chr "tostring"
+\format{\preformatted{Classes 'jq', 'character'  chr "tostring"
 }}
 \usage{
 jtostring

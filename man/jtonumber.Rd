@@ -4,7 +4,7 @@
 \name{jtonumber}
 \alias{jtonumber}
 \title{jq filter \code{tonumber}}
-\format{\preformatted{Class 'jq'  chr "tonumber"
+\format{\preformatted{Classes 'jq', 'character'  chr "tonumber"
 }}
 \usage{
 jtonumber

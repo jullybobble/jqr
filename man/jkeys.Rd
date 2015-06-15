@@ -4,7 +4,7 @@
 \name{jkeys}
 \alias{jkeys}
 \title{jq filter \code{keys}}
-\format{\preformatted{Class 'jq'  chr "keys"
+\format{\preformatted{Classes 'jq', 'character'  chr "keys"
 }}
 \usage{
 jkeys

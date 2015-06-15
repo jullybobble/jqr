@@ -4,7 +4,7 @@
 \name{jobjects}
 \alias{jobjects}
 \title{jq filter \code{objects}}
-\format{\preformatted{Class 'jq'  chr "objects"
+\format{\preformatted{Classes 'jq', 'character'  chr "objects"
 }}
 \usage{
 jobjects

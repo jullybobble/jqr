@@ -4,7 +4,7 @@
 \name{jfrom_entries}
 \alias{jfrom_entries}
 \title{jq filter \code{from_entries}}
-\format{\preformatted{Class 'jq'  chr "from_entries"
+\format{\preformatted{Classes 'jq', 'character'  chr "from_entries"
 }}
 \usage{
 jfrom_entries

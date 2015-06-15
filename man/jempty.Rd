@@ -4,7 +4,7 @@
 \name{jempty}
 \alias{jempty}
 \title{jq filter \code{empty}}
-\format{\preformatted{Class 'jq'  chr "empty"
+\format{\preformatted{Classes 'jq', 'character'  chr "empty"
 }}
 \usage{
 jempty

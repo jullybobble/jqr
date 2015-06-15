@@ -4,7 +4,7 @@
 \name{jreverse}
 \alias{jreverse}
 \title{jq filter \code{reverse}}
-\format{\preformatted{Class 'jq'  chr "reverse"
+\format{\preformatted{Classes 'jq', 'character'  chr "reverse"
 }}
 \usage{
 jreverse

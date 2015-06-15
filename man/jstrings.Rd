@@ -4,7 +4,7 @@
 \name{jstrings}
 \alias{jstrings}
 \title{jq filter \code{strings}}
-\format{\preformatted{Class 'jq'  chr "strings"
+\format{\preformatted{Classes 'jq', 'character'  chr "strings"
 }}
 \usage{
 jstrings

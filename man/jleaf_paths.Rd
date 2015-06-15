@@ -4,7 +4,7 @@
 \name{jleaf_paths}
 \alias{jleaf_paths}
 \title{jq filter \code{leaf_paths}}
-\format{\preformatted{Class 'jq'  chr "leaf_paths"
+\format{\preformatted{Classes 'jq', 'character'  chr "leaf_paths"
 }}
 \usage{
 jleaf_paths

@@ -4,7 +4,7 @@
 \name{jexplode}
 \alias{jexplode}
 \title{jq filter \code{explode}}
-\format{\preformatted{Class 'jq'  chr "explode"
+\format{\preformatted{Classes 'jq', 'character'  chr "explode"
 }}
 \usage{
 jexplode

@@ -29,7 +29,8 @@ fun_path <- fun_filter # we want eventually to check the parameters,
 #' @import jsonlite
 #' @export
 `%|%` <- function(lhs, rhs) {
-  as.jq(paste(lhs, rhs, sep = ' | '))
+  as.jq(paste(lhs, rhs, sep = ' | '),
+        input = jq_input(lhs))
 }
 
 ### json builders

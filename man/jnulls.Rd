@@ -4,7 +4,7 @@
 \name{jnulls}
 \alias{jnulls}
 \title{jq filter \code{nulls}}
-\format{\preformatted{Class 'jq'  chr "nulls"
+\format{\preformatted{Classes 'jq', 'character'  chr "nulls"
 }}
 \usage{
 jnulls

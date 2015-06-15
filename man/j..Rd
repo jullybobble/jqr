@@ -4,7 +4,7 @@
 \name{j.}
 \alias{j.}
 \title{jq filter \code{.}}
-\format{\preformatted{Class 'jq'  chr "."
+\format{\preformatted{Classes 'jq', 'character'  chr "."
 }}
 \usage{
 j.
