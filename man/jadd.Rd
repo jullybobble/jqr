@@ -4,7 +4,7 @@
 \name{jadd}
 \alias{jadd}
 \title{jq filter \code{add}}
-\format{An object of class \code{jq} of length 1.}
+\format{An object of class \code{jq} (inherits from \code{character}) of length 1.}
 \usage{
 jadd
 }

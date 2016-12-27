@@ -4,7 +4,7 @@
 \name{jbooleans}
 \alias{jbooleans}
 \title{jq filter \code{booleans}}
-\format{An object of class \code{jq} of length 1.}
+\format{An object of class \code{jq} (inherits from \code{character}) of length 1.}
 \usage{
 jbooleans
 }

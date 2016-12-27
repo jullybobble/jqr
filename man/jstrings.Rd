@@ -4,7 +4,7 @@
 \name{jstrings}
 \alias{jstrings}
 \title{jq filter \code{strings}}
-\format{An object of class \code{jq} of length 1.}
+\format{An object of class \code{jq} (inherits from \code{character}) of length 1.}
 \usage{
 jstrings
 }

@@ -21,10 +21,6 @@ jrun <- function(filter, input = jq_input(filter), args = c("--compact-output", 
     paste(system2("jq", args = args, stdout = T, stdin = file), collapse = "")
 }
 
-#' @export
-jq <- function(input = NULL, filter = '.') {
-  as.jq(filter, input = input)
-}
 
 
 

@@ -4,7 +4,7 @@
 \name{jexplode}
 \alias{jexplode}
 \title{jq filter \code{explode}}
-\format{An object of class \code{jq} of length 1.}
+\format{An object of class \code{jq} (inherits from \code{character}) of length 1.}
 \usage{
 jexplode
 }

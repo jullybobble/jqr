@@ -4,7 +4,7 @@
 \name{jleaf_paths}
 \alias{jleaf_paths}
 \title{jq filter \code{leaf_paths}}
-\format{An object of class \code{jq} of length 1.}
+\format{An object of class \code{jq} (inherits from \code{character}) of length 1.}
 \usage{
 jleaf_paths
 }

@@ -4,7 +4,7 @@
 \name{jfrom_entries}
 \alias{jfrom_entries}
 \title{jq filter \code{from_entries}}
-\format{An object of class \code{jq} of length 1.}
+\format{An object of class \code{jq} (inherits from \code{character}) of length 1.}
 \usage{
 jfrom_entries
 }
