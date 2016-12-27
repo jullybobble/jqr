@@ -8,6 +8,11 @@ Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: More about what it does (maybe more than one line)
 License: What license is it under?
 LazyData: TRUE
-Suggests: testthat, knitr
-Imports: lazyeval, jsonlite
+Suggests:
+    testthat,
+    knitr
+Imports:
+    lazyeval,
+    jsonlite
 VignetteBuilder: knitr
+RoxygenNote: 5.0.1

@@ -68,7 +68,7 @@ jobject_ <- function(entries) {
   entries <- mapply(function(field, value) {
     if (field == '') {
       if (inherits(value, 'character')) {
-        internal_eval(value %:% j.[value])
+        internal_eval(value %:% jin[value])
       } else {
         stopifnot(inherits(value, 'jq_entry'))
         value
@@ -110,7 +110,7 @@ internal_eval <- function(expr) lazy_eval(lazy(expr), data = internal_members)
 
 #' jq filter \code{.}
 #' @export
-j. <- as.jq('.')
+jin <- as.jq('.')
 
 #' jq filter \code{length}
 #' @export
@@ -282,6 +282,10 @@ jrecurse <- fun_filter('recurse', allow_missing = T)
 jpaths <- fun_filter('paths', allow_missing = T)
 #' @export
 jsort <- fun_filter('sort', allow_missing = T)
+#' @export
+jwith_entries <- fun_filter('with_entries', allow_missing = F)
+
+
 
 ### jq function filters expecting a path filter parameter
 #' @export
@@ -296,14 +300,21 @@ junique <- fun_path('unique', allow_missing = T)
 ### other jq filter
 
 #' @export
-jslice <- function(from, to) {
-  if (missing(from) && missing(to)) sep <- ''
-  else sep <- ':'
-  if (missing(from)) from <- ''
+jpath <- function(...) {
+  elements <- c(...)
+  element_names <- vapply(elements, toJSON, auto_unbox = T, FUN.VALUE = character(1))
+  as.jq(sprintf('.[%s]',
+                paste(element_names, collapse = '][')))
+}
+
+#' @export
+jslice <- function(from = NULL, to = NULL) {
+  stopifnot(!is.null(from) | !is.null(to))
+  if (is.null(from)) from <- ''
   else if (from > 0 ) from <- from - 1
-  if (missing(to)) to <- ''
+  if (is.null(to)) to <- ''
   else if (to > 0) to <- to - 1
-  as.jq(sprintf('.[%s%s%s]', from, sep, to))
+  as.jq(sprintf('.[%s%s%s]', from, ':', to))
 }
 
 #' @export
@@ -359,3 +370,4 @@ expected_json <- function(json) {
 expected_string <- function(s) {
   unlist(lapply(as.character(s), toJSON, auto_unbox = T))
 }
+
